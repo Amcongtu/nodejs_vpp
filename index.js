@@ -1,10 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import routeCustomer from "./routes/customer.js"
-import routerCategory from './routes/category.js';
 import bodyParser from 'body-parser';
 import cors from 'cors'
+import routeCustomer from "./routes/customer.js"
+import routerCategory from './routes/category.js';
 import routerProduct from "./routes/product.js";
 dotenv.config()
 
@@ -46,7 +46,7 @@ app.use((err, req, res, next)=>{
 })
 
 
-app.listen(3000,()=>{
+app.listen(8800,()=>{
     console.log("Connect to backend!")
     connect()
 })

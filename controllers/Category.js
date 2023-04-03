@@ -1,5 +1,6 @@
 import Category from "../models/Category.js";
 import cloudinary from 'cloudinary';
+import Product from "../models/Product.js";
 
 export const createCategory = async(req,res,next)=>{
   cloudinary.config({
@@ -157,3 +158,19 @@ export const getCategories = async(req,res,next)=>{
     next(err)
   }
 }
+
+export const getListHangHoaByDanhMuc = async (req, res,next) => {
+  try {
+    
+    const danhMucName = req.params.id; // Lấy ID của danh mục từ URL
+    const danhMuc = await Category.findOne({name:danhMucName}); // Tìm kiếm danh mục
+    if (!danhMuc) {
+      return res.status(404).json({ message: 'Danh mục không tồn tại' });
+    }
+    const products = danhMuc.products; // Lấy danh sách sản phẩm thuộc danh mục
+    const hangHoa = await Product.find({ _id: { $in: products } }); // Tìm kiếm sản phẩm
+    res.status(200).json(hangHoa);
+  } catch (error) {
+    next(error)
+  }
+};

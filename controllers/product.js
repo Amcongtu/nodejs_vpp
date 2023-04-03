@@ -15,7 +15,6 @@ export const createProduct = async (req,res,next)=>
     const imageUrls = [];
     const arrayCloud = []
     try{
-        console.log("11")
         const images =  req.body.HINHANH;
         
         // Upload each image to cloudinary and get their URLs
@@ -25,20 +24,16 @@ export const createProduct = async (req,res,next)=>
           arrayCloud.push(cloudinaryResponse)
           imageUrls.push(cloudinaryResponse.secure_url);
         }
-        console.log("22")
 
         const {HINHANH,...details} = req.body
-        console.log(req.body)
         // // Tạo một document mới cho product
         const product = new HangHoa({
             ...details,
             HINHANH: imageUrls
         });
-        console.log("33")
         
         // // Lưu document mới vào database
         const savedProduct= await product.save();
-        console.log("44")
        
         
         const category = await Category.findOneAndUpdate(
@@ -46,7 +41,6 @@ export const createProduct = async (req,res,next)=>
             { $push: { products: savedProduct._id } },
             { new: true },
           );
-        console.log(category)
 
         res.status(200).json(savedProduct);
       }catch(err){
@@ -83,11 +77,31 @@ export const getProducts = async(req,res,next)=>{
 }
 
 export const getProduct = async(req,res,next)=>{
+    const paramUrl = String(req.params.name).trim(); 
     try{
-        const data= req.params.name 
-        console.log(data)
+        const data= await HangHoa.findOne({TENHH:paramUrl})
+
         res.status(200).json(data)
     }catch(err){
         next(err)
     }
 }
+
+export const getProductsPagination = async (req, res, next) => {
+    
+    const page = parseInt(req.query.page) || 1;
+
+    const perPage = 12;
+
+    const skip = (page - 1) * perPage;
+    try {
+
+      const data = await HangHoa.find()
+        .skip(skip)
+        .limit(perPage);
+  
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  };
