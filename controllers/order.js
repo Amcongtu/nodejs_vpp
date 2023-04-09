@@ -69,9 +69,26 @@ export const getAllOrders = async (req, res, next) => {
       order.customer = customer;
       order.products = products;
       order.total = total;
+      order.status= req.body.status
       await order.save();
   
       res.status(200).json(order);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  export const deleteOrder = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+  
+      // Check if the order exists
+       await DonHang.findByIdAndDelete(id)
+     
+      // Delete the order
+
+  
+      res.status(200).json({ message: 'Order deleted successfully' });
     } catch (err) {
       next(err);
     }
