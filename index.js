@@ -6,6 +6,7 @@ import cors from 'cors'
 import routeCustomer from "./routes/customer.js"
 import routerCategory from './routes/category.js';
 import routerProduct from "./routes/product.js";
+import routerOrder from './routes/order.js';
 dotenv.config()
 
 const connect= async()=>{
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/customer",routeCustomer)
 app.use("/api/category",routerCategory)
 app.use("/api/product",routerProduct)
+app.use("/api/order",routerOrder)
 
 app.use((err, req, res, next)=>{
     const errorStatus = err.status || 500;
