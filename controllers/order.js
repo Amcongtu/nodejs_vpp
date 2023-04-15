@@ -93,3 +93,16 @@ export const getAllOrders = async (req, res, next) => {
       next(err);
     }
   }
+  export const getOrder = async(req,res,next)=>{
+    try{
+      const order = await DonHang.findById(req.params.id).populate('products.product');
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+      res.status(200).json(order);
+    }
+    catch(err){
+      next()
+    }
+
+  }
