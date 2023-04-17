@@ -43,7 +43,9 @@ export const getAllOrders = async (req, res, next) => {
 
 
   export const updateOrder = async (req, res, next) => {
+    
     try {
+      console.log("111111111111")
       const { id } = req.params;
       const { customer, products } = req.body;
   
@@ -57,13 +59,20 @@ export const getAllOrders = async (req, res, next) => {
       let total = 0;
       const productIds = products.map(p => p.product);
       const existingProducts = await HangHoa.find({ _id: { $in: productIds } });
+      // console.log(existingProducts)
+
       if (existingProducts.length !== productIds.length) {
         return res.status(400).json({ message: 'Invalid product ID(s)' });
       }
       products.forEach(p => {
-        const existingProduct = existingProducts.find(ep => ep._id.equals(p.product));
+        // console.log(p.product._id)
+        // let objectId = 'new ObjectId("64245e497f658a676c905692")';
+        // let regex = /"([^"]*)"/; // Biểu thức chính quy để tìm chuỗi trong dấu nháy ""
+        const existingProduct = existingProducts.find(ep => String(ep._id) == String(p.product._id));
+        // console.log(existingProduct)
         total += existingProduct.DONGIA * p.quantity;
       });
+      // .match(regex)[0].equals(p.product)
   
       // Update the order and save it to the database
       order.customer = customer;
