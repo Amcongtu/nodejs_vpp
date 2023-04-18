@@ -3,7 +3,7 @@ import DonHang from '../models/Order.js';
 import HangHoa from '../models/Product.js';
 export const createOrder = async(req,res,next)=>{
     try {
-        const { customer, products } = req.body;
+        const { customer, products,diachi,sdt } = req.body;
     
         // Check if the customer exists
       
@@ -21,7 +21,7 @@ export const createOrder = async(req,res,next)=>{
         });
     
         // Create a new order and save it to the database
-        const order = new DonHang({ customer, products, total });
+        const order = new DonHang({ customer, products, total,diachi,sdt });
         await order.save();
     
         res.status(201).json(order);
