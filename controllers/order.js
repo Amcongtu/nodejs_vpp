@@ -19,11 +19,11 @@ export const createOrder = async(req,res,next)=>{
           const existingProduct = existingProducts.find(ep => ep._id.equals(p.product));
           total += existingProduct.DONGIA * p.quantity;
         });
-    
+        // console.log(req.body)
         // Create a new order and save it to the database
         const order = new DonHang({ customer, products, total,diachi,sdt });
         await order.save();
-    
+        
         res.status(201).json(order);
       } catch (err) {
         next(err)
