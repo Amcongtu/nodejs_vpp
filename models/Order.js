@@ -7,6 +7,14 @@ const OrderSchema = new mongoose.Schema({
     type:String,
     required: true
   },
+  sdt: {
+    type:String,
+    required: true
+  },
+  diachi: {
+    type:String,
+    required: true
+  },
   products: [{
     product: {
       type: mongoose.Schema.Types.ObjectId,
