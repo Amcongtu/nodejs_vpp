@@ -45,7 +45,7 @@ export const getAllOrders = async (req, res, next) => {
   export const updateOrder = async (req, res, next) => {
     
     try {
-      console.log("111111111111")
+      // console.log("111111111111")
       const { id } = req.params;
       const { customer, products } = req.body;
   
@@ -79,6 +79,8 @@ export const getAllOrders = async (req, res, next) => {
       order.products = products;
       order.total = total;
       order.status= req.body.status
+      order.diachi= req.body.diachi
+      order.sdt= req.body.sdt
       await order.save();
   
       res.status(200).json(order);
